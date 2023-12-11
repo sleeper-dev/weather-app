@@ -16,7 +16,25 @@ body {
   height: 100vh;
   color: #222;
   background: url("../public/background2.jpg");
+  padding: 2rem;
   background-size: cover;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.search-bar {
+  background-color: #e9e9e9;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 2rem;
+  width: 40rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

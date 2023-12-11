@@ -1,7 +1,11 @@
+import Search from "./components/Search";
+
 function App() {
   return (
     <>
-      <h1>Weather App</h1>
+      <header>
+        <Search />
+      </header>
     </>
   );
 }

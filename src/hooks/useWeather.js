@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 
-export function useWeather(query = "Bijeljina") {
+export function useWeather(query, tempUnit) {
   const [isLoading, setIsLoading] = useState(false);
   const [weather, setWeather] = useState({});
   const [displayLocation, setDisplayLocation] = useState("");
 
-  function convertToFlag(countryCode) {
-    const codePoints = countryCode
-      .toUpperCase()
-      .split("")
-      .map((char) => 127397 + char.charCodeAt());
-    return String.fromCodePoint(...codePoints);
-  }
+  const temp = tempUnit ? "celsius" : "fahrenheit";
 
   useEffect(
     function () {
@@ -35,10 +29,14 @@ export function useWeather(query = "Bijeljina") {
 
           // 2) Getting actual weather
           const weatherRes = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&timezone=${timezone}&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,wind_speed_10m_max`
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&timezone=${timezone}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weathercode,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weathercode,wind_speed_10m,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,wind_speed_10m_max&temperature_unit=${temp}&forecast_hours=12`
           );
           const weatherData = await weatherRes.json();
-          setWeather(weatherData.daily);
+          setWeather({
+            current: weatherData.current,
+            hourly: weatherData.hourly,
+            daily: weatherData.daily,
+          });
         } catch (err) {
           console.error(err);
         } finally {
@@ -52,7 +50,7 @@ export function useWeather(query = "Bijeljina") {
         controller.abort();
       };
     },
-    [query]
+    [query, temp]
   );
   return { isLoading, weather, displayLocation };
 }

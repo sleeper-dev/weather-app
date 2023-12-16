@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 export function useWeather(query, tempUnit) {
   const [isLoading, setIsLoading] = useState(false);
   const [weather, setWeather] = useState({});
-  const [displayLocation, setDisplayLocation] = useState("");
+  const [displayLocation, setDisplayLocation] = useState({
+    locationName: "",
+    countryCode: "",
+  });
 
   const temp = tempUnit ? "celsius" : "fahrenheit";
 
@@ -25,7 +28,10 @@ export function useWeather(query, tempUnit) {
 
           const { latitude, longitude, timezone, name, country_code } =
             geoData.results.at(0);
-          setDisplayLocation(`${name}`);
+          setDisplayLocation({
+            locationName: `${name}`,
+            countryCode: country_code,
+          });
 
           // 2) Getting actual weather
           const weatherRes = await fetch(

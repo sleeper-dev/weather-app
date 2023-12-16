@@ -55,3 +55,7 @@ export function formatDate(date) {
 
   return formattedDate;
 }
+
+export const flagemojiToPNG = (countryCode) => {
+  return `https://flagcdn.com/24x18/${countryCode.toLowerCase()}.png`;
+};

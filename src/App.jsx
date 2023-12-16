@@ -4,6 +4,7 @@ import { useWeather } from "./hooks/useWeather";
 import Weather from "./components/Weather";
 import Today from "./components/Today";
 import Switch from "./components/Switch";
+import { flagemojiToPNG } from "./functions";
 
 function App() {
   const [query, setQuery] = useState("Bijeljina");
@@ -28,7 +29,14 @@ function App() {
       {weather.daily?.weathercode && (
         <main>
           <h1 className="location">
-            Showing weather for <strong>{displayLocation}</strong>
+            Showing weather for{" "}
+            <strong>
+              {displayLocation.locationName}{" "}
+              <img
+                src={flagemojiToPNG(displayLocation.countryCode)}
+                alt="flag"
+              />
+            </strong>
           </h1>
 
           <Today weather={{ daily: weather.daily, current: weather.current }} />
